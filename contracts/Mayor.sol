@@ -89,19 +89,26 @@ contract Mayor {
     /// @dev Need to recompute the hash to validate the envelope previously casted
     function open_envelope(uint _sigil, bool _doblon) canOpen public payable {
         
-        // TODO Complete this function
-
-            // emit EnvelopeOpen() event at the end
-
         require(envelopes[msg.sender] != 0x0, "The sender has not casted any votes");
         
         bytes32 _casted_envelope = envelopes[msg.sender];
-        bytes32 _sent_envelope = 0x0;
-        // ...
+        bytes32 _sent_envelope = keccak256(abi.encode(_sigil, _doblon, msg.value));
 
         require(_casted_envelope == _sent_envelope, "Sent envelope does not correspond to the one casted");
+        
+        if(_doblon == true)
+            yaySoul += msg.value;
+        else
+            naySoul += msg.value;
+            
+        // we increase the envelopes opened (we should also check for already opened envelope)
+        voting_condition.envelopes_opened++;
+        
+        // let's prepare for a possible refund
+        souls[msg.sender] = Refund(msg.value, _doblon);
+        voters.push(msg.sender);
 
-        // ...
+        emit EnvelopeOpen(msg.sender, msg.value, _doblon);
     }
     
     
