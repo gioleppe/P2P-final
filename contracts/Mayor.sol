@@ -95,7 +95,8 @@ contract Mayor {
         bytes32 _sent_envelope = keccak256(abi.encode(_sigil, _doblon, msg.value));
 
         require(_casted_envelope == _sent_envelope, "Sent envelope does not correspond to the one casted");
-        
+        require(souls[msg.sender].soul == 0, "You've already opened your envelope!");
+
         if(_doblon == true)
             yaySoul += msg.value;
         else
