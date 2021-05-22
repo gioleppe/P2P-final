@@ -16,6 +16,7 @@ contract Mayor {
         uint32 quorum;
         uint32 envelopes_casted;
         uint32 envelopes_opened;
+        bool outcome_declared;
     }
     
     event NewMayor(address _candidate);
@@ -38,6 +39,7 @@ contract Mayor {
     // The outcome of the confirmation can be computed as soon as all the casted envelopes have been opened
     modifier canCheckOutcome() {
         require(voting_condition.envelopes_opened == voting_condition.quorum, "Cannot check the winner, need to open all the sent envelopes");
+        require(voting_condition.outcome_declared == false, "The winner has already been declared!");
         _;
     }
     
@@ -66,7 +68,7 @@ contract Mayor {
     constructor(address payable _candidate, address payable _escrow, uint32 _quorum) public {
         candidate = _candidate;
         escrow = _escrow;
-        voting_condition = Conditions({quorum: _quorum, envelopes_casted: 0, envelopes_opened: 0});
+        voting_condition = Conditions({quorum: _quorum, envelopes_casted: 0, envelopes_opened: 0, outcome_declared: false});
     }
 
 
@@ -116,10 +118,35 @@ contract Mayor {
     /// @notice Either confirm or kick out the candidate. Refund the electors who voted for the losing outcome
     function mayor_or_sayonara() canCheckOutcome public {
 
-        // TODO Complete this function
-            
-            // emit the NewMayor() event if the candidate is confirmed as mayor
-            // emit the Sayonara() event if the candidate is NOT confirmed as mayor        
+        // in order not to exploit this multiple times
+        voting_condition.outcome_declared = true;
+
+        // check it the mayor has been confirmed
+        bool confirmed = (yaySoul > naySoul);
+
+        // pay the new mayor, emit the event
+        if (confirmed) {
+            candidate.transfer(yaySoul);
+            emit NewMayor(candidate);
+        }
+
+        // sayonara! pay the escrow
+        else {
+            escrow.transfer(naySoul);
+            emit Sayonara(escrow);
+        }
+
+        // refund losing voters
+        for (uint i = 0; i < voters.length; i++){
+            // if the vote won, no refund 
+            if (souls[voters[i]].doblon == confirmed)
+                continue;
+            else {
+                address payable to_refund = payable(voters[i]);
+                to_refund.transfer(souls[voters[i]].soul);
+            }
+        }
+
     }
  
  
