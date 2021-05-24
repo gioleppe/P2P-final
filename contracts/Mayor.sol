@@ -21,6 +21,7 @@ contract Mayor {
     
     event NewMayor(address _candidate);
     event Sayonara(address _escrow);
+    event RefundedVoter(address _voter);
     event EnvelopeCast(address _voter);
     event EnvelopeOpen(address _voter, uint _soul, bool _doblon);
     
@@ -81,6 +82,7 @@ contract Mayor {
 
         envelopes[msg.sender] = _envelope;
         emit EnvelopeCast(msg.sender);
+        
     }
     
     
@@ -138,12 +140,13 @@ contract Mayor {
 
         // refund losing voters
         for (uint i = 0; i < voters.length; i++){
-            // if the vote won, no refund 
+            // if the voter "won", no refund 
             if (souls[voters[i]].doblon == confirmed)
                 continue;
             else {
                 address payable to_refund = payable(voters[i]);
-                to_refund.transfer(souls[voters[i]].soul);
+                to_refund.transfer(souls[to_refund].soul);
+                emit RefundedVoter(to_refund);
             }
         }
 
