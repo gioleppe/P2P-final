@@ -35,19 +35,19 @@ module.exports = {
    * $ truffle test --network <network-name>
    */
 
-  networks: {
-    // Useful for testing. The `development` name is special - truffle uses it by default
-    // if it's defined here and no other network is specified at the command line.
-    // You should run a client (like ganache-cli, geth or parity) in a separate terminal
-    // tab if you use this network and you must also set the `host`, `port` and `network_id`
-    // options below to some value.
-    //
-    development: {
-    host: "127.0.0.1",     // Localhost (default: none)
-    port: 8545,            // Standard Ethereum port (default: none)
-    network_id: "*",       // Any network (default: none)
-    },
-    // Another network with more advanced options...
+  // networks: {
+  //   // Useful for testing. The `development` name is special - truffle uses it by default
+  //   // if it's defined here and no other network is specified at the command line.
+  //   // You should run a client (like ganache-cli, geth or parity) in a separate terminal
+  //   // tab if you use this network and you must also set the `host`, `port` and `network_id`
+  //   // options below to some value.
+  //   //
+  //   development: {
+  //   host: "127.0.0.1",     // Localhost (default: none)
+  //   port: 8545,            // Standard Ethereum port (default: none)
+  //   network_id: "*",       // Any network (default: none)
+  //   },
+  //   // Another network with more advanced options...
     // advanced: {
     // port: 8777,             // Custom port
     // network_id: 1342,       // Custom network
@@ -72,7 +72,7 @@ module.exports = {
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
-  },
+  // },
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
