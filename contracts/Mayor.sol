@@ -82,7 +82,7 @@ contract Mayor {
 
         envelopes[msg.sender] = _envelope;
         emit EnvelopeCast(msg.sender);
-        
+
     }
     
     
@@ -101,6 +101,10 @@ contract Mayor {
         require(_casted_envelope == _sent_envelope, "Sent envelope does not correspond to the one casted");
         require(souls[msg.sender].soul == 0, "You've already opened your envelope!");
 
+        // let's prepare for a possible refund
+        souls[msg.sender] = Refund(msg.value, _doblon);
+        voters.push(msg.sender);
+        
         if(_doblon == true)
             yaySoul += msg.value;
         else
@@ -109,9 +113,6 @@ contract Mayor {
         // we increase the envelopes opened (we should also check for already opened envelope)
         voting_condition.envelopes_opened++;
         
-        // let's prepare for a possible refund
-        souls[msg.sender] = Refund(msg.value, _doblon);
-        voters.push(msg.sender);
 
         emit EnvelopeOpen(msg.sender, msg.value, _doblon);
     }
