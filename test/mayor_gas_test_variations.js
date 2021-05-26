@@ -20,7 +20,7 @@ contract("Mayor, mayor_or_sayonara variations gas estimate", async accounts => {
 
         // estimate the gas
         gas = await instance.mayor_or_sayonara.estimateGas({from: accounts[0]});
-        console.log("Gas estimate (mayor_or_sayonara big quorum): ", gas, " Gwei");    
+        console.log("Gas estimate (mayor_or_sayonara big quorum): ", gas, " Gas Units");    
 
     });
     
@@ -47,7 +47,7 @@ contract("Mayor, mayor_or_sayonara variations gas estimate", async accounts => {
         
         // estimate the gas
         gas = await instance.mayor_or_sayonara.estimateGas({from: accounts[0]});
-        console.log("Gas estimate (mayor_or_sayonara lots of losers): ", gas, " Gwei");    
+        console.log("Gas estimate (mayor_or_sayonara lots of losers): ", gas, " Gas Units");    
         
     });
 
@@ -75,7 +75,7 @@ contract("Mayor, mayor_or_sayonara variations gas estimate", async accounts => {
     
         // estimate the gas
         gas = await instance.mayor_or_sayonara.estimateGas({from: accounts[0]});
-        console.log("Gas estimate (mayor_or_sayonara balanced): ", gas, " Gwei");    
+        console.log("Gas estimate (mayor_or_sayonara balanced): ", gas, " Gas Units");    
     
     });
     
