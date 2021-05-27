@@ -15,7 +15,7 @@ contract("Mayor, open_envelope gas test", async accounts => {
         
     });
 
-    it("Should estimate gas for open_envelope with false doblon", async() => {
+    it("Should estimate gas for open_envelope with some twists", async() => {
 
         // compute three envelopes
         envelope1 = await instance.compute_envelope(1, true, 1, {from: accounts[2]});
